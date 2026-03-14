@@ -256,7 +256,7 @@ class PortControlService:
 
             # If port is not currently enabled, enable it on the switch first
             if port.status != "enabled":
-                logger.info(f"Port is disabled, enabling via SSH before force-enable")
+                logger.info("Port is disabled, enabling via SSH before force-enable")
                 try:
                     ssh_service = CiscoSSHService(port.switch)
                     await ssh_service.enable_port_async(port.port_number, port.vlan)

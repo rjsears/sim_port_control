@@ -8,12 +8,10 @@ System status and management endpoints.
 import logging
 import platform
 import socket
-import subprocess
-from datetime import datetime, UTC
-from pathlib import Path
+from datetime import UTC, datetime
 
 import psutil
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from app.config import get_settings
 from app.dependencies import AdminUser, DbSession
@@ -31,7 +29,7 @@ def _get_uptime() -> dict:
 
     days, remainder = divmod(int(uptime_seconds), 86400)
     hours, remainder = divmod(remainder, 3600)
-    minutes, seconds = divmod(remainder, 60)
+    minutes, _seconds = divmod(remainder, 60)
 
     return {
         "boot_time": boot_time.isoformat(),
@@ -115,13 +113,12 @@ def _get_network_info() -> dict:
                         "address": addr.address,
                         "netmask": addr.netmask,
                     })
-                elif addr.family == socket.AF_INET6:
+                elif addr.family == socket.AF_INET6 and not addr.address.startswith("fe80"):
                     # Skip link-local IPv6
-                    if not addr.address.startswith("fe80"):
-                        iface_info["addresses"].append({
-                            "type": "ipv6",
-                            "address": addr.address,
-                        })
+                    iface_info["addresses"].append({
+                        "type": "ipv6",
+                        "address": addr.address,
+                    })
 
             if iface_info["addresses"]:
                 interfaces.append(iface_info)
