@@ -148,7 +148,7 @@ class TestConfigurePort:
         assert "switchport" in commands
         assert "switchport mode access" in commands
         assert "switchport access vlan 30" in commands
-        assert "no shutdown" in commands
+        # Note: Port stays shutdown after assignment - user enables explicitly
 
     def test_release_port_sends_correct_commands(self):
         """Should reset port to Available state."""

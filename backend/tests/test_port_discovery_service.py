@@ -321,16 +321,16 @@ class TestAssignPort:
         assert result["success"] is False
         assert "SSH error" in result["message"]
 
-    async def test_assign_port_verification_fails_admin_down(
+    async def test_assign_port_succeeds_when_admin_down(
         self, db_session, available_port, test_simulator
     ):
-        """Should fail if port still admin down after assignment."""
+        """Port should remain admin down after assignment - user enables explicitly."""
         with patch("app.services.port_discovery.CiscoSSHService") as mock_ssh:
             mock_instance = MagicMock()
             mock_instance.configure_port_assign_async = AsyncMock()
             mock_instance.verify_port_state_async = AsyncMock(
                 return_value={
-                    "is_admin_down": True,  # Still down - failure
+                    "is_admin_down": True,  # Expected - port stays down until user enables
                     "description": "SIMPORT:TST",
                     "is_connected": False,
                 }
@@ -346,8 +346,7 @@ class TestAssignPort:
                 user_id=1,
             )
 
-        assert result["success"] is False
-        assert "still disabled" in result["message"]
+        assert result["success"] is True
 
     async def test_assign_port_verification_ssh_error(
         self, db_session, available_port, test_simulator
