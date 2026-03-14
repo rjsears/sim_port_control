@@ -1,0 +1,140 @@
+# =============================================================================
+# SimPortControl Docker Compose Configuration
+# =============================================================================
+# Production deployment using Docker Hub images with DNS-based SSL
+# Usage: docker compose up -d
+
+networks:
+  simportcontrol:
+    driver: bridge
+
+volumes:
+  db_data:
+  letsencrypt:
+    external: true
+  certbot_data:
+  frontend_dist:
+
+services:
+  # ===========================================================================
+  # PostgreSQL Database
+  # ===========================================================================
+  db:
+    image: postgres:16-alpine
+    container_name: ${POSTGRES_CONTAINER:-simportcontrol_db}
+    restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-simportcontrol}
+      POSTGRES_USER: ${DATABASE_USER:-simportcontrol}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - simportcontrol
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-simportcontrol}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ===========================================================================
+  # FastAPI Backend (from Docker Hub)
+  # ===========================================================================
+  app:
+    image: ${DOCKER_HUB_USERNAME:-rjsears}/simportcontrol-backend:${IMAGE_TAG:-latest}
+    container_name: ${APP_CONTAINER:-simportcontrol_app}
+    restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
+    environment:
+      - APP_ENV=${APP_ENV:-production}
+      - DOMAIN=${DOMAIN:-simportcontrol.loft.aero}
+      - SECRET_KEY=${SECRET_KEY}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=${DATABASE_NAME:-simportcontrol}
+      - DATABASE_USER=${DATABASE_USER:-simportcontrol}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME:-admin}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - DEFAULT_TIMEOUT_HOURS=${DEFAULT_TIMEOUT_HOURS:-4}
+      - DEFAULT_VLAN=${DEFAULT_VLAN:-30}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - TZ=${TIMEZONE:-America/Los_Angeles}
+    volumes:
+      - letsencrypt:/etc/letsencrypt:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - simportcontrol
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ===========================================================================
+  # Frontend Init Container - copies static files to shared volume
+  # ===========================================================================
+  frontend-init:
+    image: ${DOCKER_HUB_USERNAME:-rjsears}/simportcontrol-frontend:${IMAGE_TAG:-latest}
+    container_name: ${FRONTEND_CONTAINER:-simportcontrol_frontend_init}
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - frontend_dist:/dist
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["cp -r /usr/share/nginx/html/* /dist/ && echo 'Frontend files copied successfully'"]
+    restart: "no"
+
+  # ===========================================================================
+  # Nginx Reverse Proxy
+  # ===========================================================================
+  nginx:
+    image: nginx:alpine
+    container_name: ${NGINX_CONTAINER:-simportcontrol_nginx}
+    restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - frontend_dist:/usr/share/nginx/html:ro
+      - letsencrypt:/etc/letsencrypt:ro
+      - certbot_data:/var/www/certbot:ro
+    networks:
+      - simportcontrol
+    depends_on:
+      - app
+      - frontend-init
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ===========================================================================
+  # Certbot (Let's Encrypt SSL) - DNS Challenge with Auto-Renewal
+  # ===========================================================================
+  certbot:
+    image: ${DNS_CERTBOT_IMAGE:-certbot/dns-cloudflare:latest}
+    container_name: ${CERTBOT_CONTAINER:-simportcontrol_certbot}
+    restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - certbot_data:/var/www/certbot
+      - ./${DNS_CREDENTIALS_FILE:-cloudflare.ini}:/credentials.ini:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew --dns-cloudflare --dns-cloudflare-credentials /credentials.ini --dns-cloudflare-propagation-seconds 60 || true; sleep 12h & wait $${!}; done;"
+    networks:
+      - simportcontrol

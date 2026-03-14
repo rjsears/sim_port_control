@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimPortControl User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="manual-container">
+
+    <!-- ============================================
+         COVER PAGE
+         ============================================ -->
+    <div class="cover-page">
+      <img src="/sim_port_control_banner.png" alt="SimPortControl" class="banner">
+      <h1>User Manual</h1>
+      <p class="subtitle">Flight Simulator Internet Access Control System</p>
+      <div class="version-info">
+        <p><strong>Version:</strong> 1.0.0</p>
+        <p><strong>Last Updated:</strong> March 2026</p>
+        <p><strong>Document Revision:</strong> 1.0</p>
+      </div>
+    </div>
+
+    <!-- ============================================
+         TABLE OF CONTENTS
+         ============================================ -->
+    <nav class="toc">
+      <h2>Table of Contents</h2>
+      <ul>
+        <li>
+          <a href="#part1" class="part-title">Part 1: SimTech Guide</a>
+          <ul>
+            <li><a href="#section-1-1">1.1 Getting Started</a></li>
+            <li><a href="#section-1-2">1.2 Activating Internet Access</a></li>
+            <li><a href="#section-1-3">1.3 Deactivating Internet Access</a></li>
+            <li><a href="#section-1-4">1.4 Understanding Timeouts</a></li>
+            <li><a href="#section-1-5">1.5 Changing Your Password</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#part2" class="part-title">Part 2: Administrator Guide</a>
+          <ul>
+            <li><a href="#section-2-1">2.1 Admin Dashboard Overview</a></li>
+            <li><a href="#section-2-2">2.2 User Management</a></li>
+            <li><a href="#section-2-3">2.3 Simulator Management</a></li>
+            <li><a href="#section-2-4">2.4 Switch Management</a></li>
+            <li><a href="#section-2-5">2.5 Port Assignments</a></li>
+            <li><a href="#section-2-6">2.6 Port Discovery</a></li>
+            <li><a href="#section-2-7">2.7 Activity Logs</a></li>
+            <li><a href="#section-2-8">2.8 System &amp; SSL Management</a></li>
+            <li><a href="#section-2-9">2.9 Force Enable (Admin Override)</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#appendix-a" class="part-title">Appendix A: Troubleshooting</a>
+        </li>
+        <li>
+          <a href="#appendix-b" class="part-title">Appendix B: Quick Reference</a>
+        </li>
+        <li>
+          <a href="#appendix-c" class="part-title">Appendix C: Cisco Switch Configuration</a>
+        </li>
+        <li>
+          <a href="#index" class="part-title">Index</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- ============================================
+         PART 1: SIMTECH GUIDE
+         ============================================ -->
+    <div class="part-header" id="part1">
+      <h2>Part 1: SimTech Guide</h2>
+      <p>Day-to-day operations for simulator technicians</p>
+    </div>
+
+    <!-- Section 1.1: Getting Started -->
+    <section class="section" id="section-1-1">
+      <h3>1.1 Getting Started</h3>
+
+      <p>SimPortControl provides a simple interface for enabling and disabling internet access to flight simulators. This section covers how to log in and navigate the main dashboard.</p>
+
+      <h4>Logging In</h4>
+
+      <p>To access SimPortControl, open your web browser and navigate to the system URL provided by your administrator (e.g., <code>https://simportcontrol.loft.aero</code>).</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/01-login-screen.png" alt="Login Screen">
+      </div>
+      <p class="screenshot-caption">Figure 1.1: The SimPortControl login page</p>
+
+      <ol class="steps">
+        <li>Enter your <strong>username</strong> in the first field</li>
+        <li>Enter your <strong>password</strong> in the second field</li>
+        <li>Click the <strong>Sign In</strong> button</li>
+      </ol>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/02-login-filled.png" alt="Login Form Filled">
+      </div>
+      <p class="screenshot-caption">Figure 1.2: Entering credentials</p>
+
+      <div class="info-box note">
+        <div class="info-box-title">Note</div>
+        <p>If you don't have login credentials, contact your system administrator to create an account for you.</p>
+      </div>
+
+      <h4>The Simulator Dashboard</h4>
+
+      <p>After logging in, you'll see the main dashboard displaying all simulators you have access to. Each simulator is shown as a card with its icon and name.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/03-dashboard-inactive.png" alt="Dashboard with Inactive Simulators">
+      </div>
+      <p class="screenshot-caption">Figure 1.3: Dashboard showing simulators with internet access disabled (gray icons)</p>
+
+      <p>When a simulator has active internet access, it displays with a colored icon, a green glow effect, and an "Internet Active" badge. If a single port is active, the remaining time is shown below the badge (e.g., "2h 30m"). When multiple ports are active, each port's timer is displayed with its interface name (e.g., "Gi1/0/7: 23h 59m").</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/04-dashboard-active.png" alt="Dashboard with Active Simulators">
+      </div>
+      <p class="screenshot-caption">Figure 1.4: Dashboard showing simulators with active internet access</p>
+
+      <div class="info-box tip">
+        <div class="info-box-title">Tip</div>
+        <p>The dashboard automatically refreshes to show current port status. You don't need to manually refresh the page.</p>
+      </div>
+    </section>
+
+    <!-- Section 1.2: Activating Internet Access -->
+    <section class="section" id="section-1-2">
+      <h3>1.2 Activating Internet Access</h3>
+
+      <p>When a simulator needs internet connectivity (for updates, downloads, or remote support), follow these steps to enable access.</p>
+
+      <ol class="steps">
+        <li>Click on the simulator card from the dashboard</li>
+        <li>On the simulator detail page, you'll see a list of ports showing the port number, switch name, and VLAN</li>
+        <li>Click the green <strong>Enable</strong> button next to the port you want to activate</li>
+      </ol>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/05-sim-detail-inactive.png" alt="Simulator Detail - Port Disabled">
+      </div>
+      <p class="screenshot-caption">Figure 1.5: Simulator detail view with internet access disabled</p>
+
+      <p>A confirmation dialog will appear with a <strong>Duration</strong> dropdown that lets you choose how long the port should remain active.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/06-enable-confirmation.png" alt="Enable Confirmation Modal">
+      </div>
+      <p class="screenshot-caption">Figure 1.6: Confirmation dialog for enabling internet access</p>
+
+      <ol class="steps" start="4">
+        <li>Select a duration from the dropdown (Default uses the port's configured timeout, or choose 1-24 hours)</li>
+        <li>Click <strong>Enable</strong> to confirm activation</li>
+      </ol>
+
+      <p>Once activated, the port status icon turns emerald green, the button changes to <strong>Disable</strong>, and a countdown timer displays the remaining time. You'll be automatically returned to the dashboard.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/07-sim-detail-active.png" alt="Simulator Detail - Port Enabled">
+      </div>
+      <p class="screenshot-caption">Figure 1.7: Simulator with active internet access showing countdown timer</p>
+
+      <div class="info-box warning">
+        <div class="info-box-title">Important</div>
+        <p>Internet access will automatically disconnect when the timer reaches zero. This is a safety feature to prevent accidental extended connectivity.</p>
+      </div>
+    </section>
+
+    <!-- Section 1.3: Deactivating Internet Access -->
+    <section class="section" id="section-1-3">
+      <h3>1.3 Deactivating Internet Access</h3>
+
+      <p>When you're finished using internet connectivity on a simulator, you should manually deactivate it rather than waiting for the timeout.</p>
+
+      <ol class="steps">
+        <li>Navigate to the simulator detail page (click the simulator from the dashboard)</li>
+        <li>Click the blue <strong>Disable</strong> button next to the active port</li>
+        <li>A confirmation dialog will appear</li>
+      </ol>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/08-disable-confirmation.png" alt="Disable Confirmation Modal">
+      </div>
+      <p class="screenshot-caption">Figure 1.8: Confirmation dialog for disabling internet access</p>
+
+      <ol class="steps" start="4">
+        <li>Click <strong>Disable</strong> to confirm deactivation</li>
+      </ol>
+
+      <p>The port will immediately disconnect, the status icon turns blue, and the button changes back to <strong>Enable</strong>. You'll be automatically returned to the dashboard.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/09-sim-detail-disabled.png" alt="Simulator After Disabling">
+      </div>
+      <p class="screenshot-caption">Figure 1.9: Simulator after internet access has been disabled</p>
+
+      <div class="info-box tip">
+        <div class="info-box-title">Best Practice</div>
+        <p>Always manually disable internet access when you're done using it. Don't rely solely on the automatic timeout.</p>
+      </div>
+    </section>
+
+    <!-- Section 1.4: Understanding Timeouts -->
+    <section class="section" id="section-1-4">
+      <h3>1.4 Understanding Timeouts</h3>
+
+      <p>SimPortControl uses automatic timeouts as a safety feature to ensure simulators don't remain connected to the internet indefinitely.</p>
+
+      <h4>How Timeouts Work</h4>
+
+      <ul>
+        <li>Each port has a <strong>default timeout</strong> configured by the administrator (commonly 4 hours)</li>
+        <li>When you activate a port, a countdown timer begins</li>
+        <li>The timer is displayed on both the dashboard and simulator detail page</li>
+        <li>When the timer reaches zero, the port <strong>automatically disables</strong></li>
+      </ul>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/10-countdown-timer.png" alt="Countdown Timer Close-up">
+      </div>
+      <p class="screenshot-caption">Figure 1.10: The countdown timer showing remaining connection time</p>
+
+      <h4>Multiple Ports</h4>
+
+      <p>Some simulators may have multiple network ports. Each port has its own independent timeout. When multiple ports are active, the dashboard displays each port's remaining time individually, stacked vertically on the simulator card (e.g., "Gi1/0/7: 23h 59m"). Times are sorted with the shortest time first.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/11-multiple-ports-timers.png" alt="Multiple Ports with Different Timers">
+      </div>
+      <p class="screenshot-caption">Figure 1.11: A simulator with multiple ports showing different remaining times</p>
+
+      <div class="info-box note">
+        <div class="info-box-title">Note</div>
+        <p>If you need extended access beyond the default timeout, contact an administrator who can use the Force Enable feature with a custom duration.</p>
+      </div>
+    </section>
+
+    <!-- Section 1.5: Changing Your Password -->
+    <section class="section" id="section-1-5">
+      <h3>1.5 Changing Your Password</h3>
+
+      <p>You can change your password at any time directly from the application.</p>
+
+      <ol class="steps">
+        <li>Look for the <strong>key icon</strong> button in the header (next to the Logout button)</li>
+      </ol>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/12-password-button.png" alt="Password Button in Header">
+      </div>
+      <p class="screenshot-caption">Figure 1.12: Location of the Change Password button in the header</p>
+
+      <ol class="steps" start="2">
+        <li>Click the key icon to open the Change Password dialog</li>
+        <li>Enter your <strong>current password</strong></li>
+        <li>Enter your <strong>new password</strong> (minimum 6 characters)</li>
+        <li>Confirm your new password by entering it again</li>
+        <li>Click <strong>Change Password</strong></li>
+      </ol>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/13-change-password-modal.png" alt="Change Password Modal">
+      </div>
+      <p class="screenshot-caption">Figure 1.13: The Change Password dialog</p>
+
+      <p>If successful, you'll see a confirmation message.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/14-password-success.png" alt="Password Change Success">
+      </div>
+      <p class="screenshot-caption">Figure 1.14: Success notification after changing password</p>
+
+      <div class="info-box warning">
+        <div class="info-box-title">Security Reminder</div>
+        <p>Choose a strong password that you don't use on other systems. If you forget your password, contact an administrator to reset it.</p>
+      </div>
+    </section>
+
+    <!-- ============================================
+         PART 2: ADMINISTRATOR GUIDE
+         ============================================ -->
+    <div class="part-header" id="part2">
+      <h2>Part 2: Administrator Guide</h2>
+      <p>System configuration and management for administrators</p>
+    </div>
+
+    <!-- Section 2.1: Admin Dashboard Overview -->
+    <section class="section" id="section-2-1">
+      <h3>2.1 Admin Dashboard Overview</h3>
+
+      <p>Administrators have access to all SimTech features plus a comprehensive management dashboard. To access the admin area, click the <strong>Admin</strong> button (gear icon) in the header.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/15-admin-dashboard.png" alt="Admin Dashboard">
+      </div>
+      <p class="screenshot-caption">Figure 2.1: The Administrator Dashboard with all management sections</p>
+
+      <p>The admin dashboard provides quick access to:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Users</strong></td>
+            <td>Manage user accounts and simulator assignments</td>
+          </tr>
+          <tr>
+            <td><strong>Simulators</strong></td>
+            <td>Configure flight simulators and FTDs</td>
+          </tr>
+          <tr>
+            <td><strong>Switches</strong></td>
+            <td>Manage Cisco switch connections</td>
+          </tr>
+          <tr>
+            <td><strong>Port Assignments</strong></td>
+            <td>Configure port to simulator mappings</td>
+          </tr>
+          <tr>
+            <td><strong>Discovered Ports</strong></td>
+            <td>Scan and view switch ports</td>
+          </tr>
+          <tr>
+            <td><strong>Activity Logs</strong></td>
+            <td>View port control history</td>
+          </tr>
+          <tr>
+            <td><strong>System</strong></td>
+            <td>SSL certificates and system info</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box note">
+        <div class="info-box-title">Note</div>
+        <p>Admin users automatically have access to all simulators. You don't need to assign simulators to admin accounts.</p>
+      </div>
+    </section>
+
+    <!-- Section 2.2: User Management -->
+    <section class="section" id="section-2-2">
+      <h3>2.2 User Management</h3>
+
+      <p>The User Management section allows you to create, edit, and delete user accounts, as well as assign simulators to SimTech users.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/16-users-list.png" alt="Users List">
+      </div>
+      <p class="screenshot-caption">Figure 2.2: User management table showing all users</p>
+
+      <h4>Creating a New User</h4>
+
+      <ol class="steps">
+        <li>Click the <strong>Add User</strong> button</li>
+        <li>Enter a username (3-50 characters)</li>
+        <li>Enter a password (minimum 8 characters)</li>
+        <li>Select the user role</li>
+      </ol>
+
+      <p><strong>For SimTech users:</strong> Select which simulators they can access.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/17-add-user-simtech.png" alt="Add SimTech User">
+      </div>
+      <p class="screenshot-caption">Figure 2.3: Adding a SimTech user with simulator assignments</p>
+
+      <p><strong>For Admin users:</strong> No simulator selection needed—admins access all simulators.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/18-add-user-admin.png" alt="Add Admin User">
+      </div>
+      <p class="screenshot-caption">Figure 2.4: Adding an Admin user (automatic access to all simulators)</p>
+
+      <h4>Editing a User</h4>
+
+      <p>Click the <strong>pencil icon</strong> next to a user to edit their details.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/19-edit-user-modal.png" alt="Edit User Modal">
+      </div>
+      <p class="screenshot-caption">Figure 2.5: Editing an existing user</p>
+
+      <div class="info-box tip">
+        <div class="info-box-title">Tip</div>
+        <p>Leave the password field blank when editing to keep the current password unchanged.</p>
+      </div>
+
+      <h4>Deleting a User</h4>
+
+      <p>Click the <strong>trash icon</strong> to delete a user. A confirmation dialog will appear.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/20-delete-user-confirm.png" alt="Delete User Confirmation">
+      </div>
+      <p class="screenshot-caption">Figure 2.6: Delete user confirmation dialog</p>
+
+      <div class="info-box danger">
+        <div class="info-box-title">Warning</div>
+        <p>Deleting a user cannot be undone. The user's activity history will be preserved in the logs.</p>
+      </div>
+    </section>
+
+    <!-- Section 2.3: Simulator Management -->
+    <section class="section" id="section-2-3">
+      <h3>2.3 Simulator Management</h3>
+
+      <p>The Simulator Management section allows you to configure the flight simulators and training devices in your facility.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/21-simulators-list.png" alt="Simulators List">
+      </div>
+      <p class="screenshot-caption">Figure 2.7: Simulator management table</p>
+
+      <h4>Adding a Simulator</h4>
+
+      <ol class="steps">
+        <li>Click the <strong>Add Simulator</strong> button</li>
+        <li>Enter the full name (e.g., "CL350 Challenger 350")</li>
+        <li>Enter a short name for display (e.g., "CL350")</li>
+        <li>Optionally specify an icon path</li>
+        <li>Click <strong>Create</strong></li>
+      </ol>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/22-add-simulator-modal.png" alt="Add Simulator Modal">
+      </div>
+      <p class="screenshot-caption">Figure 2.8: Adding a new simulator</p>
+
+      <h4>Simulator Icons</h4>
+
+      <p>Icons should be placed in the <code>/icons/</code> directory with two variants:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Variant</th>
+            <th>Usage</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>*_gray.png</code></td>
+            <td>Shown when inactive</td>
+            <td><code>/icons/CL350_gray.png</code></td>
+          </tr>
+          <tr>
+            <td><code>*_wht.png</code></td>
+            <td>Shown when active</td>
+            <td><code>/icons/CL350_wht.png</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/23-edit-simulator-modal.png" alt="Edit Simulator Modal">
+      </div>
+      <p class="screenshot-caption">Figure 2.9: Editing a simulator with icon path</p>
+    </section>
+
+    <!-- Section 2.4: Switch Management -->
+    <section class="section" id="section-2-4">
+      <h3>2.4 Switch Management</h3>
+
+      <p>Configure Cisco switches that control network connectivity to your simulators.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/24-switches-list.png" alt="Switches List">
+      </div>
+      <p class="screenshot-caption">Figure 2.10: Switch management table</p>
+
+      <h4>Adding a Switch</h4>
+
+      <ol class="steps">
+        <li>Click the <strong>Add Switch</strong> button</li>
+        <li>Enter a descriptive name (e.g., "LOFT-SIM-SW01")</li>
+        <li>Enter the switch IP address</li>
+        <li>Enter SSH credentials (username and password)</li>
+        <li>Click <strong>Test Connection</strong> to verify</li>
+        <li>Click <strong>Create</strong> to save</li>
+      </ol>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/25-add-switch-modal.png" alt="Add Switch Modal">
+      </div>
+      <p class="screenshot-caption">Figure 2.11: Adding a new switch</p>
+
+      <h4>Testing Connection</h4>
+
+      <p>Always test the connection before saving to ensure credentials are correct.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/26-test-connection-success.png" alt="Test Connection Success">
+      </div>
+      <p class="screenshot-caption">Figure 2.12: Successful connection test</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/27-test-connection-failed.png" alt="Test Connection Failed">
+      </div>
+      <p class="screenshot-caption">Figure 2.13: Failed connection test with error message</p>
+
+      <div class="info-box warning">
+        <div class="info-box-title">Prerequisite</div>
+        <p>Ensure SSH is enabled on your Cisco switch and the user account has privilege level 15. See <a href="#appendix-c">Appendix C</a> for complete switch configuration details.</p>
+      </div>
+    </section>
+
+    <!-- Section 2.5: Port Assignments -->
+    <section class="section" id="section-2-5">
+      <h3>2.5 Port Assignments</h3>
+
+      <p>Port assignments link switch ports to simulators, defining which port controls internet access for each device.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/28-port-assignments-list.png" alt="Port Assignments List">
+      </div>
+      <p class="screenshot-caption">Figure 2.14: Port assignments table</p>
+
+      <h4>Creating a Port Assignment</h4>
+
+      <ol class="steps">
+        <li>Click <strong>Add Assignment</strong></li>
+        <li>Select the simulator</li>
+        <li>Select the switch</li>
+        <li>Enter the port identifier (e.g., "Gi0/1")</li>
+        <li>Enter the VLAN number (default: 30)</li>
+        <li>Set the default timeout in hours</li>
+        <li>Click <strong>Create</strong></li>
+      </ol>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/29-add-assignment-modal.png" alt="Add Assignment Modal">
+      </div>
+      <p class="screenshot-caption">Figure 2.15: Creating a new port assignment</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/30-edit-assignment-modal.png" alt="Edit Assignment Modal">
+      </div>
+      <p class="screenshot-caption">Figure 2.16: Editing port assignment settings</p>
+
+      <div class="info-box note">
+        <div class="info-box-title">Multiple Ports</div>
+        <p>A simulator can have multiple port assignments if it requires multiple network connections.</p>
+      </div>
+    </section>
+
+    <!-- Section 2.6: Port Discovery -->
+    <section class="section" id="section-2-6">
+      <h3>2.6 Port Discovery</h3>
+
+      <p>The Port Discovery feature allows you to scan switches and discover available ports, making it easier to set up port assignments.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/31-discovered-ports-empty.png" alt="Discovered Ports - Before Scan">
+      </div>
+      <p class="screenshot-caption">Figure 2.17: Port discovery view before scanning</p>
+
+      <h4>Scanning a Switch</h4>
+
+      <ol class="steps">
+        <li>Select a switch from the dropdown</li>
+        <li>Click the <strong>Scan</strong> button</li>
+        <li>Wait for the scan to complete</li>
+      </ol>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/32-discovered-ports-scanning.png" alt="Scanning in Progress">
+      </div>
+      <p class="screenshot-caption">Figure 2.18: Scanning in progress</p>
+
+      <p>After scanning, you'll see all discovered ports with their current status.</p>
+
+      <div class="screenshot has-image">
+        <img src="screenshots/33-discovered-ports-results.png" alt="Discovered Ports Results">
+      </div>
+      <p class="screenshot-caption">Figure 2.19: Discovered ports with status indicators</p>
+
+      <h4>Assigning Discovered Ports</h4>
+
+      <p>You can assign discovered ports directly to simulators by clicking the <strong>Assign</strong> button next to any available port. Select the simulator from the dropdown and click <strong>Assign Port</strong> to complete the assignment.</p>
+
+      <div class="screenshot">
+        <img src="screenshots/34-assign-discovered-port.png" alt="Assign Discovered Port">
+      </div>
+      <p class="screenshot-caption">Figure 2.20: Assigning a discovered port to a simulator</p>
+    </section>
+
+    <!-- Section 2.7: Activity Logs -->
+    <section class="section" id="section-2-7">
+      <h3>2.7 Activity Logs</h3>
+
+      <p>The Activity Logs section provides a complete audit trail of all port control actions.</p>
+
+      <div class="screenshot">
+        <img src="screenshots/35-activity-logs.png" alt="Activity Logs">
+      </div>
+      <p class="screenshot-caption">Figure 2.21: Activity logs showing port control history</p>
+
+      <p>Each log entry includes:</p>
+
+      <ul>
+        <li><strong>Timestamp:</strong> When the action occurred</li>
+        <li><strong>User:</strong> Who performed the action</li>
+        <li><strong>Action:</strong> Enable, disable, force enable, etc.</li>
+        <li><strong>Simulator:</strong> Which simulator was affected</li>
+        <li><strong>Port:</strong> The specific switch port</li>
+        <li><strong>Reason:</strong> For admin force enables, the stated reason</li>
+      </ul>
+
+      <div class="screenshot">
+        <img src="screenshots/36-activity-logs-filtered.png" alt="Activity Logs Filtered">
+      </div>
+      <p class="screenshot-caption">Figure 2.22: Filtered activity logs</p>
+
+      <div class="info-box tip">
+        <div class="info-box-title">Tip</div>
+        <p>Use the activity logs to troubleshoot issues or review who accessed which simulators.</p>
+      </div>
+
+      <h4>Clearing Logs</h4>
+      <p>Admins can clear all activity logs by clicking the <strong>Clear Logs</strong> button in the header. A confirmation dialog will appear before deletion.</p>
+
+      <div class="info-box danger">
+        <div class="info-box-title">Warning</div>
+        <p>Clearing logs is permanent and cannot be undone. Consider exporting or backing up important audit data before clearing.</p>
+      </div>
+    </section>
+
+    <!-- Section 2.8: System & SSL Management -->
+    <section class="section" id="section-2-8">
+      <h3>2.8 System &amp; SSL Management</h3>
+
+      <p>The System section displays overall system health and SSL certificate status.</p>
+
+      <div class="screenshot">
+        <img src="screenshots/37-system-overview.png" alt="System Overview">
+      </div>
+      <p class="screenshot-caption">Figure 2.23: System health overview</p>
+
+      <h4>SSL Certificate Status</h4>
+
+      <p>The SSL section shows your certificate details with color-coded expiration indicators:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Color</th>
+            <th>Days Remaining</th>
+            <th>Action Needed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge active">Green</span></td>
+            <td>More than 30 days</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td><span style="background-color: #fef3c7; color: #d97706; padding: 2px 8px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Yellow</span></td>
+            <td>15-30 days</td>
+            <td>Plan renewal</td>
+          </tr>
+          <tr>
+            <td><span class="badge inactive">Red</span></td>
+            <td>Less than 15 days</td>
+            <td>Renew immediately</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="screenshot">
+        <img src="screenshots/38-ssl-certificate-info.png" alt="SSL Certificate Info">
+      </div>
+      <p class="screenshot-caption">Figure 2.24: SSL certificate status display</p>
+
+      <h4>Force Renewal</h4>
+
+      <p>If needed, you can manually trigger certificate renewal:</p>
+
+      <ol class="steps">
+        <li>Click the <strong>Force Renew</strong> button</li>
+        <li>In the dialog, optionally check <strong>Dry run</strong> to test without making changes</li>
+        <li>Click <strong>Force Renew</strong> (or <strong>Run Dry Test</strong> if dry run is checked)</li>
+        <li>Wait for renewal to complete (may take 60-90 seconds for DNS validation)</li>
+        <li>Review the full certbot output displayed in the dialog</li>
+      </ol>
+
+      <div class="info-box tip">
+        <div class="info-box-title">Dry Run Mode</div>
+        <p>The <strong>Dry run</strong> checkbox allows you to test the renewal process without actually requesting a new certificate. This is useful for verifying your DNS configuration and certbot setup without consuming Let's Encrypt rate limits. When dry run is enabled, the button changes to "Run Dry Test" and no certificate changes are made.</p>
+      </div>
+
+      <div class="screenshot">
+        <img src="screenshots/39-ssl-force-renew-confirm.png" alt="Force Renew Confirmation">
+      </div>
+      <p class="screenshot-caption">Figure 2.25: Force renewal confirmation dialog with dry run option</p>
+
+      <div class="screenshot">
+        <img src="screenshots/40-ssl-renew-success.png" alt="SSL Renewal Success">
+      </div>
+      <p class="screenshot-caption">Figure 2.26: Successful SSL certificate renewal with certbot output</p>
+
+      <div class="info-box note">
+        <div class="info-box-title">Automatic Renewal</div>
+        <p>The certbot container automatically checks for certificate renewal every 12 hours. Certificates are renewed when they have less than 30 days remaining. After successful renewal, nginx is automatically reloaded to use the new certificate. Manual renewal is rarely needed.</p>
+      </div>
+    </section>
+
+    <!-- Section 2.9: Force Enable -->
+    <section class="section" id="section-2-9">
+      <h3>2.9 Force Enable (Admin Override)</h3>
+
+      <p>Administrators can force-enable ports with custom timeout durations, including indefinite ("Always On") access.</p>
+
+      <h4>Using Force Enable</h4>
+
+      <p>There are two ways to force-enable a port:</p>
+
+      <p><strong>Method 1: Using the Enable button with "Always On"</strong></p>
+      <ol class="steps">
+        <li>Navigate to any simulator detail page</li>
+        <li>Click the <strong>Enable</strong> button next to the port</li>
+        <li>In the Duration dropdown, select <strong>Always On (until manually disabled)</strong></li>
+        <li>The Force Enable modal will open - enter a reason and click <strong>Enable Always-On</strong></li>
+      </ol>
+
+      <p><strong>Method 2: Using the bolt icon</strong></p>
+      <ol class="steps">
+        <li>Navigate to any simulator detail page</li>
+        <li>Click the bolt icon (⚡) next to any port (visible only to admins)</li>
+        <li>Enter a reason for the override (required)</li>
+        <li>Click <strong>Enable Always-On</strong> to confirm</li>
+      </ol>
+
+      <div class="screenshot">
+        <img src="screenshots/42-force-enable-modal.png" alt="Force Enable Modal">
+      </div>
+      <p class="screenshot-caption">Figure 2.28: Force Enable modal requiring a reason</p>
+
+      <p>Duration options available to admins include extended timeouts (2 days, 3 days, 1 week) and the special <strong>Always On</strong> option.</p>
+
+      <div class="screenshot">
+        <img src="screenshots/43-force-enable-reason.png" alt="Force Enable with Reason">
+      </div>
+      <p class="screenshot-caption">Figure 2.29: Entering a reason for force enable</p>
+
+      <h4>Always On Mode</h4>
+
+      <p>When a port is enabled with "Always On", it displays a special badge and remains active until manually disabled. The main dashboard will show a "Locked On" indicator with a lock icon instead of a countdown timer.</p>
+
+      <div class="screenshot">
+        <img src="screenshots/44-always-on-badge.png" alt="Always On Badge">
+      </div>
+      <p class="screenshot-caption">Figure 2.30: Simulator with "Always On" badge and "Locked On" indicator</p>
+
+      <h4>Disabling a Locked Port</h4>
+
+      <p>To disable a force-enabled port, simply click the <strong>Disable</strong> button. This will disable the port on the switch and automatically remove the lock. There is no separate "Remove Lock" action needed.</p>
+
+      <div class="info-box warning">
+        <div class="info-box-title">Important</div>
+        <p>All force enable actions are logged with the admin's username and stated reason. Use this feature responsibly.</p>
+      </div>
+    </section>
+
+    <!-- ============================================
+         APPENDIX A: TROUBLESHOOTING
+         ============================================ -->
+    <div class="part-header" id="appendix-a">
+      <h2>Appendix A: Troubleshooting</h2>
+      <p>Common issues and solutions</p>
+    </div>
+
+    <section class="section">
+      <h3>Login Issues</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Problem</th>
+            <th>Possible Cause</th>
+            <th>Solution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Invalid credentials error</td>
+            <td>Wrong username or password</td>
+            <td>Verify credentials; contact admin for reset</td>
+          </tr>
+          <tr>
+            <td>Page won't load</td>
+            <td>Network connectivity</td>
+            <td>Check network connection; try different browser</td>
+          </tr>
+          <tr>
+            <td>Certificate warning</td>
+            <td>Expired SSL certificate</td>
+            <td>Admin should renew SSL certificate</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="screenshot">
+        <img src="screenshots/46-login-error.png" alt="Login Error">
+      </div>
+      <p class="screenshot-caption">Figure A.1: Login error message</p>
+
+      <h3>Port Control Issues</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Problem</th>
+            <th>Possible Cause</th>
+            <th>Solution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Port won't enable</td>
+            <td>Switch connection issue</td>
+            <td>Admin should test switch connection</td>
+          </tr>
+          <tr>
+            <td>Port won't disable</td>
+            <td>Switch not responding</td>
+            <td>Check switch connectivity; manually verify port state</td>
+          </tr>
+          <tr>
+            <td>Timeout not working</td>
+            <td>Scheduler issue</td>
+            <td>Admin should check container logs</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="screenshot">
+        <img src="screenshots/45-connection-error.png" alt="Connection Error">
+      </div>
+      <p class="screenshot-caption">Figure A.2: Switch connection error</p>
+
+      <h3>General Tips</h3>
+
+      <ul>
+        <li>Clear browser cache if experiencing display issues</li>
+        <li>Use a modern browser (Chrome, Firefox, Safari, Edge)</li>
+        <li>Check the Activity Logs for recent actions if something seems wrong</li>
+        <li>Contact your system administrator for persistent issues</li>
+      </ul>
+    </section>
+
+    <!-- ============================================
+         APPENDIX B: QUICK REFERENCE
+         ============================================ -->
+    <div class="part-header" id="appendix-b">
+      <h2>Appendix B: Quick Reference</h2>
+      <p>At-a-glance guides and keyboard shortcuts</p>
+    </div>
+
+    <section class="section">
+      <h3>SimTech Quick Actions</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Steps</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Enable internet</td>
+            <td>Click simulator → Click <strong>Enable</strong> button → Select duration → Confirm</td>
+          </tr>
+          <tr>
+            <td>Disable internet</td>
+            <td>Click simulator → Click <strong>Disable</strong> button → Confirm</td>
+          </tr>
+          <tr>
+            <td>Change password</td>
+            <td>Click key icon in header → Fill form → Submit</td>
+          </tr>
+          <tr>
+            <td>Logout</td>
+            <td>Click logout icon in header</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Admin Quick Actions</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Navigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Add user</td>
+            <td>Admin → Users → Add User</td>
+          </tr>
+          <tr>
+            <td>Add simulator</td>
+            <td>Admin → Simulators → Add Simulator</td>
+          </tr>
+          <tr>
+            <td>Add switch</td>
+            <td>Admin → Switches → Add Switch</td>
+          </tr>
+          <tr>
+            <td>Assign port</td>
+            <td>Admin → Port Assignments → Add Assignment</td>
+          </tr>
+          <tr>
+            <td>Force enable</td>
+            <td>Simulator detail → Admin Force Enable</td>
+          </tr>
+          <tr>
+            <td>View logs</td>
+            <td>Admin → Activity Logs</td>
+          </tr>
+          <tr>
+            <td>Renew SSL</td>
+            <td>Admin → System → Force Renew</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Status Indicators</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Indicator</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gray simulator icon</td>
+            <td>Internet access disabled</td>
+          </tr>
+          <tr>
+            <td>Colored icon + green glow</td>
+            <td>Internet access active</td>
+          </tr>
+          <tr>
+            <td>Blue signal icon + <strong>Enable</strong> button</td>
+            <td>Port disabled</td>
+          </tr>
+          <tr>
+            <td>Emerald signal icon + <strong>Disable</strong> button</td>
+            <td>Port enabled</td>
+          </tr>
+          <tr>
+            <td>"Always On" purple badge</td>
+            <td>Indefinite admin override (locked on)</td>
+          </tr>
+          <tr>
+            <td>"Locked On" amber indicator</td>
+            <td>Force-enabled port (shown on dashboard)</td>
+          </tr>
+          <tr>
+            <td>Countdown timer (e.g., "23h 59m")</td>
+            <td>Time remaining for single active port</td>
+          </tr>
+          <tr>
+            <td>Port timers (e.g., "Gi1/0/7: 23h 59m")</td>
+            <td>Time remaining when multiple ports are active</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>User Roles</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Capabilities</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge simtech">SimTech</span></td>
+            <td>Enable/disable ports for assigned simulators, change own password</td>
+          </tr>
+          <tr>
+            <td><span class="badge admin">Admin</span></td>
+            <td>All SimTech abilities + manage users, switches, simulators, force enable, view logs</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============================================
+         APPENDIX C: CISCO SWITCH CONFIGURATION
+         ============================================ -->
+    <div class="part-header" id="appendix-c">
+      <h2>Appendix C: Cisco Switch Configuration</h2>
+      <p>Setting up your Cisco switch for SimPortControl</p>
+    </div>
+
+    <section class="section">
+      <h3>Overview</h3>
+
+      <p>SimPortControl communicates with Cisco switches via SSH to enable and disable switch ports. Before adding a switch to SimPortControl, you must configure SSH access and create an appropriate user account on the switch.</p>
+
+      <div class="info-box warning">
+        <div class="info-box-title">Important</div>
+        <p>The user account must have <strong>privilege level 15</strong> to execute the necessary interface configuration commands.</p>
+      </div>
+
+      <h3>Requirements</h3>
+
+      <ul>
+        <li>Cisco IOS switch (tested with 3560G, compatible with most IOS switches)</li>
+        <li>SSH v2 support enabled</li>
+        <li>Local user account with privilege level 15</li>
+        <li>Network connectivity between SimPortControl server and switch management interface</li>
+      </ul>
+
+      <h3>Step 1: Basic Switch Configuration</h3>
+
+      <p>First, configure the switch hostname and domain name (required for RSA key generation):</p>
+
+      <pre class="compact"><code>configure terminal
+hostname LOFT-SIM-SW01
+ip domain-name loft.aero
+end</code></pre>
+
+      <h3>Step 2: Generate RSA Keys</h3>
+
+      <p>Generate RSA keys for SSH encryption. Use a minimum of 2048 bits for security:</p>
+
+      <pre class="compact"><code>configure terminal
+crypto key generate rsa modulus 2048
+end</code></pre>
+
+      <div class="info-box note">
+        <div class="info-box-title">Note</div>
+        <p>If RSA keys already exist, you may be prompted to replace them. Type "yes" to continue.</p>
+      </div>
+
+      <h3>Step 3: Configure SSH Settings</h3>
+
+      <p>Enable SSH version 2 and configure timeout and retry settings:</p>
+
+      <pre class="compact"><code>configure terminal
+ip ssh version 2
+ip ssh time-out 60
+ip ssh authentication-retries 3
+end</code></pre>
+
+      <h3>Step 4: Create SimPortControl User Account</h3>
+
+      <p>Create a local user account with privilege level 15. This grants full configuration access required for port control:</p>
+
+      <pre class="compact"><code>configure terminal
+username simportcontrol privilege 15 secret YourSecurePassword
+end</code></pre>
+
+      <div class="info-box danger">
+        <div class="info-box-title">Security Warning</div>
+        <p>Use a strong, unique password. This password will be stored encrypted in SimPortControl's database, but should still follow your organization's password policies.</p>
+      </div>
+
+      <h3>Step 5: Configure VTY Lines for SSH</h3>
+
+      <p>Configure the virtual terminal lines to accept only SSH connections with local authentication:</p>
+
+      <pre class="compact"><code>configure terminal
+line vty 0 15
+ login local
+ transport input ssh
+ exec-timeout 10 0
+end</code></pre>
+
+      <h3>Step 6: Save Configuration</h3>
+
+      <p>Save the configuration to persistent storage:</p>
+
+      <pre class="compact"><code>write memory</code></pre>
+
+      <h3>Step 7: Verify SSH Configuration</h3>
+
+      <p>Verify that SSH is properly configured:</p>
+
+      <pre class="compact"><code>show ip ssh
+show ssh</code></pre>
+
+      <p>Expected output should show SSH version 2.0 enabled with your configured timeout values.</p>
+
+      <h3>Complete Configuration Example</h3>
+
+      <p>Here is the complete configuration sequence:</p>
+
+      <pre class="compact"><code>! Basic switch configuration
+configure terminal
+hostname LOFT-SIM-SW01
+ip domain-name loft.aero
+
+! Generate RSA keys for SSH
+crypto key generate rsa modulus 2048
+
+! Configure SSH settings
+ip ssh version 2
+ip ssh time-out 60
+ip ssh authentication-retries 3
+
+! Create user for SimPortControl
+username simportcontrol privilege 15 secret YourSecurePassword
+
+! Configure VTY lines for SSH only
+line vty 0 15
+ login local
+ transport input ssh
+ exec-timeout 10 0
+end
+
+! Save configuration
+write memory
+
+! Verify SSH is working
+show ip ssh
+show ssh</code></pre>
+
+      <h3>How SimPortControl Discovers Ports</h3>
+
+      <p>SimPortControl uses the <strong>Port Discovery</strong> feature to scan switches and identify available interfaces. For a port to be discoverable, it must meet two criteria:</p>
+
+      <ol>
+        <li><strong>Administratively down</strong> - The port must be in shutdown state</li>
+        <li><strong>Description = "Available"</strong> - The port description must be set to "Available" (case-insensitive)</li>
+      </ol>
+
+      <h4>Preparing Ports for Discovery</h4>
+
+      <p>On your Cisco switch, configure unused ports that should be available for simulator assignment:</p>
+
+      <pre class="compact"><code>configure terminal
+interface GigabitEthernet1/0/10
+ description Available
+ shutdown
+end
+write memory</code></pre>
+
+      <h4>Using Port Discovery</h4>
+
+      <ol class="steps">
+        <li>Navigate to <strong>Admin → Discovered Ports</strong></li>
+        <li>Select a configured switch from the dropdown</li>
+        <li>Click <strong>Scan Switch</strong> to initiate discovery</li>
+        <li>SimPortControl connects via SSH and runs <code>show interface description</code></li>
+        <li>Only ports that are admin down with description "Available" are shown</li>
+        <li>Click <strong>Assign</strong> next to an available port to assign it to a simulator</li>
+      </ol>
+
+      <div class="info-box note">
+        <div class="info-box-title">Note</div>
+        <p>Only GigabitEthernet (Gi) and FastEthernet (Fa) interfaces are discovered. VLAN interfaces, loopbacks, and other virtual interfaces are excluded.</p>
+      </div>
+
+      <div class="info-box tip">
+        <div class="info-box-title">Tip</div>
+        <p>When a port is assigned to a simulator, its description is automatically changed to <code>SIMPORT:&lt;simulator_name&gt;</code>. When released, it's changed back to "Available".</p>
+      </div>
+
+      <h3>How Port Control Works</h3>
+
+      <p>When a user enables or disables a port, SimPortControl executes the following commands via SSH:</p>
+
+      <h4>Enabling a Port</h4>
+      <pre class="compact"><code>configure terminal
+interface GigabitEthernet1/0/7
+ no shutdown
+ switchport access vlan 30
+end</code></pre>
+
+      <h4>Disabling a Port</h4>
+      <pre class="compact"><code>configure terminal
+interface GigabitEthernet1/0/7
+ shutdown
+end</code></pre>
+
+      <h3>Troubleshooting Connection Issues</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Problem</th>
+            <th>Cause</th>
+            <th>Solution</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Connection refused</td>
+            <td>SSH not enabled or wrong port</td>
+            <td>Verify SSH is enabled with <code>show ip ssh</code></td>
+          </tr>
+          <tr>
+            <td>Authentication failed</td>
+            <td>Wrong username/password</td>
+            <td>Verify credentials; check <code>show running-config | include username</code></td>
+          </tr>
+          <tr>
+            <td>Permission denied</td>
+            <td>User lacks privilege level 15</td>
+            <td>Recreate user with <code>privilege 15</code></td>
+          </tr>
+          <tr>
+            <td>Connection timeout</td>
+            <td>Network connectivity issue</td>
+            <td>Verify network path; check firewalls</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============================================
+         INDEX
+         ============================================ -->
+    <div class="part-header" id="index">
+      <h2>Index</h2>
+    </div>
+
+    <section class="section">
+      <div class="index-columns">
+        <div class="index-item"><strong>A</strong></div>
+        <div class="index-item">Activity Logs, <a href="#section-2-7">2.7</a></div>
+        <div class="index-item">Admin Dashboard, <a href="#section-2-1">2.1</a></div>
+        <div class="index-item">Always On mode, <a href="#section-2-9">2.9</a></div>
+        <div class="index-item">Assigning simulators, <a href="#section-2-2">2.2</a></div>
+
+        <div class="index-item"><strong>C</strong></div>
+        <div class="index-item">Changing password, <a href="#section-1-5">1.5</a></div>
+        <div class="index-item">Cisco switch configuration, <a href="#appendix-c">Appendix C</a></div>
+        <div class="index-item">Connection testing, <a href="#section-2-4">2.4</a></div>
+        <div class="index-item">Creating users, <a href="#section-2-2">2.2</a></div>
+
+        <div class="index-item"><strong>D</strong></div>
+        <div class="index-item">Dashboard, <a href="#section-1-1">1.1</a></div>
+        <div class="index-item">Deactivating ports, <a href="#section-1-3">1.3</a></div>
+        <div class="index-item">Deleting users, <a href="#section-2-2">2.2</a></div>
+
+        <div class="index-item"><strong>E</strong></div>
+        <div class="index-item">Enabling internet, <a href="#section-1-2">1.2</a></div>
+
+        <div class="index-item"><strong>F</strong></div>
+        <div class="index-item">Force Enable, <a href="#section-2-9">2.9</a></div>
+
+        <div class="index-item"><strong>I</strong></div>
+        <div class="index-item">Icons, simulator, <a href="#section-2-3">2.3</a></div>
+
+        <div class="index-item"><strong>L</strong></div>
+        <div class="index-item">Logging in, <a href="#section-1-1">1.1</a></div>
+        <div class="index-item">Logs, activity, <a href="#section-2-7">2.7</a></div>
+
+        <div class="index-item"><strong>P</strong></div>
+        <div class="index-item">Password, changing, <a href="#section-1-5">1.5</a></div>
+        <div class="index-item">Port assignments, <a href="#section-2-5">2.5</a></div>
+        <div class="index-item">Port discovery, <a href="#section-2-6">2.6</a></div>
+
+        <div class="index-item"><strong>S</strong></div>
+        <div class="index-item">Scanning ports, <a href="#section-2-6">2.6</a></div>
+        <div class="index-item">Simulators, adding, <a href="#section-2-3">2.3</a></div>
+        <div class="index-item">SSH configuration, <a href="#appendix-c">Appendix C</a></div>
+        <div class="index-item">SSL certificates, <a href="#section-2-8">2.8</a></div>
+        <div class="index-item">Switches, adding, <a href="#section-2-4">2.4</a></div>
+        <div class="index-item">Switches, configuring, <a href="#appendix-c">Appendix C</a></div>
+
+        <div class="index-item"><strong>T</strong></div>
+        <div class="index-item">Timeouts, <a href="#section-1-4">1.4</a></div>
+        <div class="index-item">Troubleshooting, <a href="#appendix-a">Appendix A</a></div>
+
+        <div class="index-item"><strong>U</strong></div>
+        <div class="index-item">User management, <a href="#section-2-2">2.2</a></div>
+        <div class="index-item">User roles, <a href="#appendix-b">Appendix B</a></div>
+
+        <div class="index-item"><strong>V</strong></div>
+        <div class="index-item">VLAN configuration, <a href="#section-2-5">2.5</a></div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer class="manual-footer">
+      <p><strong>SimPortControl User Manual</strong></p>
+      <p>Version 1.0.0 | March 2026</p>
+      <p>&copy; 2026 SimPortControl. All rights reserved.</p>
+      <p>Richard J. Sears - richardjsears@protonmail.com</p>
+    </footer>
+
+  </div>
+</body>
+</html>

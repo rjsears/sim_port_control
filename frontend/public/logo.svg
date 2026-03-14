@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 230" width="200" height="230">
+  <defs>
+    <!-- Chalk/sketch texture effect -->
+    <filter id="chalk" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="0.8" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- Main gray background with rounded top corners -->
+  <path d="M20 0 Q0 0 0 20 L0 175 L200 175 L200 20 Q200 0 180 0 Z" fill="#6b6b6b"/>
+
+  <!-- Flight simulator sketch (chalk style matching your icons) -->
+  <g stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#chalk)">
+    <!-- Simulator display/head -->
+    <path d="M65 45 Q60 40 60 50 L60 95 Q60 105 70 105 L130 105 Q140 105 140 95 L140 50 Q140 40 135 45"/>
+    <path d="M65 45 Q100 35 135 45"/>
+
+    <!-- LOFT text area circle -->
+    <circle cx="100" cy="65" r="12"/>
+
+    <!-- Motion platform ring -->
+    <ellipse cx="100" cy="115" rx="50" ry="12"/>
+
+    <!-- Platform legs -->
+    <line x1="60" y1="115" x2="75" y2="150"/>
+    <line x1="100" y1="123" x2="100" y2="155"/>
+    <line x1="140" y1="115" x2="125" y2="150"/>
+
+    <!-- Platform base -->
+    <path d="M55 155 L65 155 L65 165 L55 165 Z"/>
+    <path d="M90" y1="155" x2="110" y2="155"/>
+    <ellipse cx="100" cy="160" rx="8" ry="4"/>
+    <path d="M135 155 L145 155 L145 165 L135 165 Z"/>
+
+    <!-- Some floor lines -->
+    <line x1="25" y1="165" x2="60" y2="165"/>
+    <line x1="140" y1="165" x2="175" y2="165"/>
+  </g>
+
+  <!-- LOFT text -->
+  <g fill="none" stroke="#ffffff" stroke-width="1.5" filter="url(#chalk)">
+    <text x="100" y="70" font-family="Arial, sans-serif" font-size="11" font-weight="bold"
+          fill="#ffffff" text-anchor="middle" stroke="none">LOFT</text>
+  </g>
+
+  <!-- Red indicator line on display (like your icon) -->
+  <line x1="88" y1="65" x2="112" y2="65" stroke="#e74c3c" stroke-width="2"/>
+
+  <!-- Orange bottom bar -->
+  <path d="M0 175 L200 175 L200 210 Q200 230 180 230 L20 230 Q0 230 0 210 Z" fill="#e8632b"/>
+
+  <!-- Mini Cisco switch in the orange bar -->
+  <g transform="translate(100, 202)">
+    <!-- Switch body -->
+    <rect x="-45" y="-12" width="90" height="22" rx="3" fill="none" stroke="#ffffff" stroke-width="2"/>
+
+    <!-- 8 ports -->
+    <rect x="-40" y="-7" width="7" height="10" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="-30" y="-7" width="7" height="10" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="-20" y="-7" width="7" height="10" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="-10" y="-7" width="7" height="10" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="3" y="-7" width="7" height="10" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="13" y="-7" width="7" height="10" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="23" y="-7" width="7" height="10" rx="1" fill="#ffffff" opacity="0.9"/>
+    <rect x="33" y="-7" width="7" height="10" rx="1" fill="#ffffff" opacity="0.9"/>
+
+    <!-- LED indicators -->
+    <circle cx="-36.5" cy="6" r="1.5" fill="#00ff00"/>
+    <circle cx="-26.5" cy="6" r="1.5" fill="#00ff00"/>
+    <circle cx="-16.5" cy="6" r="1.5" fill="#ffffff" opacity="0.5"/>
+    <circle cx="-6.5" cy="6" r="1.5" fill="#ffffff" opacity="0.5"/>
+    <circle cx="6.5" cy="6" r="1.5" fill="#00ff00"/>
+    <circle cx="16.5" cy="6" r="1.5" fill="#ffffff" opacity="0.5"/>
+    <circle cx="26.5" cy="6" r="1.5" fill="#ffffff" opacity="0.5"/>
+    <circle cx="36.5" cy="6" r="1.5" fill="#ffffff" opacity="0.5"/>
+  </g>
+</svg>
