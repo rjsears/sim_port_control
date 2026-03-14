@@ -28,7 +28,12 @@ def upgrade() -> None:
     )
     op.add_column(
         "port_assignments",
-        sa.Column("force_enabled_by_id", sa.Integer(), sa.ForeignKey("users.id", ondelete="SET NULL"), nullable=True),
+        sa.Column(
+            "force_enabled_by_id",
+            sa.Integer(),
+            sa.ForeignKey("users.id", ondelete="SET NULL"),
+            nullable=True,
+        ),
     )
     op.add_column(
         "port_assignments",

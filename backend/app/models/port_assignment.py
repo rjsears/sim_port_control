@@ -57,7 +57,9 @@ class PortAssignment(Base):
     force_enabled_by_id: Mapped[int | None] = mapped_column(
         ForeignKey("users.id", ondelete="SET NULL"), nullable=True
     )
-    force_enabled_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    force_enabled_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
     force_enabled_reason: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     # Timestamps
@@ -72,7 +74,9 @@ class PortAssignment(Base):
     simulator: Mapped["Simulator"] = relationship("Simulator", back_populates="port_assignments")
     switch: Mapped["Switch"] = relationship("Switch", back_populates="port_assignments")
     enabled_by: Mapped["User | None"] = relationship("User", foreign_keys=[enabled_by_user_id])
-    force_enabled_by: Mapped["User | None"] = relationship("User", foreign_keys=[force_enabled_by_id])
+    force_enabled_by: Mapped["User | None"] = relationship(
+        "User", foreign_keys=[force_enabled_by_id]
+    )
     activity_logs: Mapped[list["ActivityLog"]] = relationship(
         "ActivityLog", back_populates="port_assignment"
     )

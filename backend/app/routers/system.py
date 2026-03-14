@@ -108,17 +108,21 @@ def _get_network_info() -> dict:
 
             for addr in addr_list:
                 if addr.family == socket.AF_INET:
-                    iface_info["addresses"].append({
-                        "type": "ipv4",
-                        "address": addr.address,
-                        "netmask": addr.netmask,
-                    })
+                    iface_info["addresses"].append(
+                        {
+                            "type": "ipv4",
+                            "address": addr.address,
+                            "netmask": addr.netmask,
+                        }
+                    )
                 elif addr.family == socket.AF_INET6 and not addr.address.startswith("fe80"):
                     # Skip link-local IPv6
-                    iface_info["addresses"].append({
-                        "type": "ipv6",
-                        "address": addr.address,
-                    })
+                    iface_info["addresses"].append(
+                        {
+                            "type": "ipv6",
+                            "address": addr.address,
+                        }
+                    )
 
             if iface_info["addresses"]:
                 interfaces.append(iface_info)
@@ -257,6 +261,7 @@ async def get_ssl_info(admin: AdminUser) -> dict:
 
     try:
         import docker
+
         client = docker.from_env()
 
         # Find certbot container
@@ -272,10 +277,7 @@ async def get_ssl_info(admin: AdminUser) -> dict:
 
         # List certificate directories
         try:
-            exit_code, output = certbot_container.exec_run(
-                "ls /etc/letsencrypt/live/",
-                demux=True
-            )
+            exit_code, output = certbot_container.exec_run("ls /etc/letsencrypt/live/", demux=True)
 
             if exit_code == 0 and output[0]:
                 domains = output[0].decode("utf-8").strip().split("\n")
@@ -286,8 +288,7 @@ async def get_ssl_info(admin: AdminUser) -> dict:
 
                     # Get certificate info using openssl
                     exit_code, cert_output = certbot_container.exec_run(
-                        f"openssl x509 -in {cert_path} -noout -subject -issuer -dates",
-                        demux=True
+                        f"openssl x509 -in {cert_path} -noout -subject -issuer -dates", demux=True
                     )
 
                     if exit_code == 0 and cert_output[0]:
@@ -340,7 +341,9 @@ def _do_ssl_renewal(dry_run: bool = False) -> dict:
             return result
 
         if certbot_container.status != "running":
-            result["message"] = f"Certbot container is not running (status: {certbot_container.status})"
+            result["message"] = (
+                f"Certbot container is not running (status: {certbot_container.status})"
+            )
             return result
 
         # Build certbot command
