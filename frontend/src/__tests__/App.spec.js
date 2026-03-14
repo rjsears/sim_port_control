@@ -1,10 +1,12 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createRouter, createWebHistory } from 'vue-router'
+import { createPinia } from 'pinia'
 import App from '../App.vue'
 
 describe('App', () => {
   it('renders without crashing', () => {
+    const pinia = createPinia()
     const router = createRouter({
       history: createWebHistory(),
       routes: [{ path: '/', component: { template: '<div>Home</div>' } }]
@@ -12,7 +14,7 @@ describe('App', () => {
 
     const wrapper = mount(App, {
       global: {
-        plugins: [router]
+        plugins: [pinia, router]
       }
     })
 

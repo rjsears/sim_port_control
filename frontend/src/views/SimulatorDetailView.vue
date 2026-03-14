@@ -10,7 +10,6 @@ import { useAuthStore } from '@/stores/auth'
 import {
   ArrowLeftIcon,
   SignalIcon,
-  ClockIcon,
   CheckCircleIcon,
   XCircleIcon,
   PlusIcon,
@@ -205,20 +204,6 @@ async function executeForceEnable() {
     await simulatorsStore.forceEnablePort(selectedPort.value.id, forceEnableReason.value.trim())
     // Return to dashboard after successful action
     router.push({ name: 'home' })
-  } catch (err) {
-    actionError.value = err.message
-  } finally {
-    loading.value = false
-  }
-}
-
-async function removeForceEnable(port) {
-  loading.value = true
-  actionError.value = null
-
-  try {
-    await simulatorsStore.forceDisablePort(port.id)
-    initLocalCountdowns()
   } catch (err) {
     actionError.value = err.message
   } finally {

@@ -9,7 +9,6 @@ import { systemApi } from '@/services/api'
 import { useNotificationStore } from '@/stores/notifications'
 import {
   ArrowLeftIcon,
-  ShieldCheckIcon,
   ArrowPathIcon,
   CpuChipIcon,
   CircleStackIcon,

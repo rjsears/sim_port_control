@@ -83,18 +83,6 @@ async function scanAllSwitches() {
   }
 }
 
-async function scanSwitch(switchId) {
-  scanning.value = true
-  try {
-    await discoveryApi.scanSwitch(switchId)
-    await fetchData()
-  } catch (err) {
-    alert('Scan failed: ' + (err.response?.data?.detail || err.message))
-  } finally {
-    scanning.value = false
-  }
-}
-
 async function refreshPort(portId) {
   try {
     await discoveryApi.refreshPort(portId)
