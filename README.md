@@ -6,8 +6,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
   <a href="https://github.com/rjsears/sim_port_control/commits"><img src="https://img.shields.io/github/last-commit/rjsears/sim_port_control" alt="GitHub last commit"></a>
   <a href="https://github.com/rjsears/sim_port_control/issues"><img src="https://img.shields.io/github/issues/rjsears/sim_port_control" alt="GitHub issues"></a>
-  <a href="docs/CHANGELOG.md"><img src="https://img.shields.io/badge/Version-1.0.0-orange" alt="Version"></a>
-  [![codecov](https://codecov.io/gh/rjsears/unifi_sim_port_control/graph/badge.svg)](https://codecov.io/gh/rjsears/sim_port_control)
+  <a href="https://codecov.io/gh/rjsears/sim_port_control"><img src="https://codecov.io/gh/rjsears/sim_port_control/graph/badge.svg" alt="codecov"></a>
 </p>
 
 <p align="center">
